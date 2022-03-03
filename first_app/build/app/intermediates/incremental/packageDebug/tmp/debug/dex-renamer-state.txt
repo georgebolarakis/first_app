@@ -1,0 +1,4 @@
+#Thu Mar 03 12:12:41 GMT 2022
+base.0=/Users/georgiosbolarakis/Documents/Git_SideProjects/first_app/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
