@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//in this class we set how the questions are going to look inside our main.dart
 class Question extends StatelessWidget {
   //final means that this property will never change
   final String questionText;
