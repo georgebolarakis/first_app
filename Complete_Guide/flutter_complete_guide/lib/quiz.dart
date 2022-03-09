@@ -19,8 +19,10 @@ class Quiz extends StatelessWidget {
         Question(
           questions[questionIndex]['questionText'],
         ),
-        ...(questions[questionIndex]['answers'] as List<String>).map((answer) {
-          return Answer(answerQuestion, answer);
+        ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
+            .map((answer) {
+          //we are calling an anonimus function by using () =>
+          return Answer(() => answerQuestion(answer["score"]), answer["text"]);
         }).toList()
       ],
       //the colon indicates the else option
