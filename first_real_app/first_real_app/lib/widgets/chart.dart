@@ -35,7 +35,7 @@ class Chart extends StatelessWidget {
         "day": DateFormat.E().format(weekDay).substring(0, 1),
         "amount": totalSum,
       };
-    });
+    }).reversed.toList();
   }
 
   //we need to calculate the total spent for the week
