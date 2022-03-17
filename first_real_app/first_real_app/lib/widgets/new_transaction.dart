@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -72,21 +75,34 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
-                // onChanged: (val) {
-                //   titleInput = val;
-                // },
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                onSubmitted: (_) => _submitData(),
-                // onChanged: (val) => amountInput = val,
-              ),
+              //adding the Cupertino tf for iOS
+              Platform.isIOS
+                  ? CupertinoTextField(
+                      placeholder: "Title",
+                      controller: _titleController,
+                      onSubmitted: (_) => _submitData(),
+                    )
+                  : TextField(
+                      decoration: InputDecoration(labelText: 'Title'),
+                      controller: _titleController,
+                      onSubmitted: (_) => _submitData(),
+                      // onChanged: (val) {
+                      //   titleInput = val;
+                      // },
+                    ),
+              Platform.isIOS
+                  ? CupertinoTextField(
+                      placeholder: "Amount",
+                      controller: _titleController,
+                      onSubmitted: (_) => _submitData(),
+                    )
+                  : TextField(
+                      decoration: InputDecoration(labelText: 'Amount'),
+                      controller: _amountController,
+                      keyboardType: TextInputType.number,
+                      onSubmitted: (_) => _submitData(),
+                      // onChanged: (val) => amountInput = val,
+                    ),
               //we are adding the date picker
               Container(
                 height: 70,
@@ -101,14 +117,24 @@ class _NewTransactionState extends State<NewTransaction> {
                             : "Picked Date: ${DateFormat.yMd().format(_selectedDate)}",
                       ),
                     ),
-                    FlatButton(
-                      child: Text(
-                        "Choose Date",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      textColor: Theme.of(context).primaryColor,
-                      onPressed: _presentDatePicker,
-                    ),
+                    //adding a cupertino button
+                    Platform.isIOS
+                        ? CupertinoButton(
+                            child: Text(
+                              "Choose Date",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            color: Theme.of(context).primaryColor,
+                            onPressed: _presentDatePicker,
+                          )
+                        : FlatButton(
+                            child: Text(
+                              "Choose Date",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            textColor: Theme.of(context).primaryColor,
+                            onPressed: _presentDatePicker,
+                          ),
                   ],
                 ),
               ),
