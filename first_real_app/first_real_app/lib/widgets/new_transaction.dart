@@ -124,7 +124,7 @@ class _NewTransactionState extends State<NewTransaction> {
                               "Choose Date",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            color: Theme.of(context).primaryColor,
+                            //color: Theme.of(context).primaryColor,
                             onPressed: _presentDatePicker,
                           )
                         : FlatButton(
@@ -138,6 +138,14 @@ class _NewTransactionState extends State<NewTransaction> {
                   ],
                 ),
               ),
+              // Platform.isIOS
+              //     ? CupertinoButton(
+              //         child: Text('Add Transaction'),
+              //         //textColor: Colors.white,
+              //         color: Theme.of(context).primaryColor,
+              //         onPressed: _submitData,
+              //       )
+              //     :
               RaisedButton(
                 child: Text('Add Transaction'),
                 //textColor: Colors.white,
