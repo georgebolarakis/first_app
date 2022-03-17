@@ -28,7 +28,7 @@ class Chart extends StatelessWidget {
         ;
       }
 
-      print(DateFormat.E().format(weekDay));
+      // print(DateFormat.E().format(weekDay));
 
       //the .E gives us the sortcut for the day
       return {
@@ -48,10 +48,11 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues);
+    print("build() Chart state");
+    // print(groupedTransactionValues);
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Container(
         padding: EdgeInsets.all(10),
         child: Row(

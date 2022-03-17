@@ -1,8 +1,8 @@
 //where we output our list Tiles
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
+import './transaction_item.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -15,6 +15,9 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //for testing the build state
+    print("build() TransactionList state");
+
     return
         //we need to calculate the size of the screen dynamicaly
         //to do that we implement the MediaQuery method
@@ -48,45 +51,15 @@ class TransactionList extends StatelessWidget {
             : ListView.builder(
                 itemBuilder: (ctx, index) {
                   //repalced the Card with the listTile
-                  return Card(
-                    elevation: 5,
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        //maxRadius: 30.0,
-                        radius: 30,
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: FittedBox(
-                            child: Text("\£${transactions[index].amount}"),
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        transactions[index].title,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      subtitle: Text(
-                        DateFormat.yMMMd().format(transactions[index].date),
-                      ),
-                      trailing: MediaQuery.of(context).size.width > 460
-                          ? FlatButton.icon(
-                              icon: Icon(Icons.delete),
-                              onPressed: () => deleteTx(transactions[index].id),
-                              label: Text("Delete"),
-                              textColor: Theme.of(context).errorColor)
-                          : IconButton(
-                              icon: Icon(Icons.delete),
-                              color: Theme.of(context).errorColor,
-                              onPressed: () => deleteTx(transactions[index].id),
-                            ),
-                    ),
-                  );
+                  return TransactionItem(
+                      transaction: transactions[index], deleteTx: deleteTx);
                 },
                 itemCount: transactions.length,
               );
   }
 }
+
+
 
 
 //our initial setup on how the userInputs will look

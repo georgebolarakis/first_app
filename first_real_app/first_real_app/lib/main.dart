@@ -123,8 +123,52 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //we will add two methods that will handle the portrait/landscape instead of
+  //having them in our build method
+
+  Widget _buildLandscapeContent() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          "Show Chart",
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        //we are seting the switch to be adaptive for iOS
+        Switch.adaptive(
+          //so we can use our defined colors on iOS also
+          activeColor: Theme.of(context).accentColor,
+          value: _showChart,
+          onChanged: (val) {
+            setState(() {
+              _showChart = val;
+            });
+          },
+        )
+      ],
+    );
+  }
+
+  Widget _buildPortraitContent(MediaQueryData MediaQuery, AppBar appBar) {
+    return Container(
+      //we are deducting the height of the appBar here
+      //we managed to do that by adding the AppBar in a variable above
+      //we are also deducting the pading from the top with the second -
+      height: (MediaQuery.size.height -
+              appBar.preferredSize.height -
+              MediaQuery.padding.top) *
+          0.25,
+      child: Chart(_recentTransactions),
+    );
+  }
+
+  Widget _buildAppBar() {}
+
   @override
   Widget build(BuildContext context) {
+    //for testing purposes
+    print("build() MyHomePage state");
+
     //we are storing the mediaQuery in a variable
     final mediaQuery = MediaQuery.of(context);
     //we need to find in which mode we are
@@ -175,40 +219,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             //we are adding a switch for landscape mode to choose btw list or chart
             //but first we need to wrap in in a Row to add some labels
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Show Chart",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  //we are seting the switch to be adaptive for iOS
-                  Switch.adaptive(
-                    //so we can use our defined colors on iOS also
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  )
-                ],
-              ),
+            if (isLandscape) _buildLandscapeContent(),
+
             //we are checking if we are in portrait mode
             // ignore: sdk_version_ui_as_code
-            if (!isLandscape)
-              Container(
-                //we are deducting the height of the appBar here
-                //we managed to do that by adding the AppBar in a variable above
-                //we are also deducting the pading from the top with the second -
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.25,
-                child: Chart(_recentTransactions),
-              ),
+            if (!isLandscape) _buildPortraitContent(mediaQuery, appBar),
 
             if (!isLandscape) txListWidget,
             //chart needs our recent transactions
