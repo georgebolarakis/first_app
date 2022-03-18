@@ -58,7 +58,10 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+//we are using a mixIn to add the functionality of another class to the class that we have
+//we need to add this class on a class extending state
+//we do that with the  with statement
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [
     // Transaction(
     //   id: 't1',
@@ -75,6 +78,27 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   bool _showChart = false;
+
+  //we are adding the observer
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  //we are adding a new method that got enabled with the WidgetsBindingObserver class
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  //here we are clearing the state
+  @override
+  dispose() {
+    //we need to add an observer above
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions
@@ -162,20 +186,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _buildAppBar() {}
-
-  @override
-  Widget build(BuildContext context) {
-    //for testing purposes
-    print("build() MyHomePage state");
-
-    //we are storing the mediaQuery in a variable
-    final mediaQuery = MediaQuery.of(context);
-    //we need to find in which mode we are
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-
-    //we are assigning the AppBar configuration in a variable and we call it in our scafold
-    final PreferredSizeWidget appBar = Platform.isIOS
+  Widget _buildAppBar() {
+    return Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text(
               'Personal Expenses',
@@ -201,6 +213,20 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //for testing purposes
+    print("build() MyHomePage state");
+
+    //we are storing the mediaQuery in a variable
+    final mediaQuery = MediaQuery.of(context);
+    //we need to find in which mode we are
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
+    //we are assigning the AppBar configuration in a variable and we call it in our scafold
+    final PreferredSizeWidget appBar = _buildAppBar();
 
     final txListWidget = Container(
       height: (mediaQuery.size.height -

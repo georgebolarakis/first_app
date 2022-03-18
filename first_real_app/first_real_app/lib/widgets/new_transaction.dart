@@ -9,10 +9,16 @@ import '/widgets/adaptive_flat_button.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  NewTransaction(this.addTx);
+  //
+  NewTransaction(this.addTx) {
+    print("constractor new transaction widget");
+  }
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState() {
+    print("createState new transaction widget");
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
@@ -21,6 +27,29 @@ class _NewTransactionState extends State<NewTransaction> {
   final _amountController = TextEditingController();
   //we are adding a variable to store the date input
   DateTime _selectedDate;
+
+  _NewTransactionState() {
+    print("constractor new transaction State");
+  }
+
+  @override
+  void initState() {
+    print("initState");
+
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant NewTransaction oldWidget) {
+    print("didUpdatewidget()");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    print("dispose widget");
+    super.dispose();
+  }
 
   void _submitData() {
     if (_amountController.text.isEmpty) {
